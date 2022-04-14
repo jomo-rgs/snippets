@@ -1,0 +1,6 @@
+__pycache__/
+KivyMD/
+virt/
+.vscode/
+*.db
+*.sqbpro

@@ -1,0 +1,262 @@
+#:import Factory kivy.factory.Factory
+#:import utils kivy.utils
+#:import hex kivy.utils.get_color_from_hex
+
+<SearchPopup>
+    auto_dismiss: False
+    size_hint: 0.3, 0.15
+    title: ""
+    seperator_height: 0
+
+    GridLayout:
+        id: g1
+        cols: 1
+
+        TextInput:
+            id: text_search
+            font_size: 18
+            multiline: False
+            size_hint: (1, None)
+            height: 35
+        GridLayout:
+            cols: 2
+            Button:
+                text: "Search"
+                on_release: root.btn_search()
+
+            Button:
+                text: "Cancel"
+                on_release: root.dismiss()
+
+
+<ConfirmPopup>:
+    cols:1
+	Label:
+		text: root.text
+	GridLayout:
+		cols: 2
+		size_hint_y: None
+		height: '44sp'
+		Button:
+			text: 'Yes'
+			on_release: root.dispatch('on_answer','yes')
+		Button:
+			text: 'No'
+			on_release: root.dispatch('on_answer', 'no')
+
+<NewSnipPopup>
+    auto_dismiss: False
+    size_hint: 0.4, 0.5
+    title: ""
+    seperator_height: 0
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'vertical'
+            size: root.width, root.height    
+            Label:
+                text: 'Language'
+                font_size: 18
+                size_hint_y: .2
+            
+            Spinner:
+                id: spinner_lang
+                text: root.language
+                font_size: 18
+                values: root.languages
+                size_hint_y: .2
+            Label:
+                text: ""
+                size_hint_y: .1
+                
+            Label:
+                text: 'Category'
+                font_size: 18
+                size_hint_y: .2
+
+            TextInput:
+                id: text_cat
+                text: root.category
+                font_size: 18
+                multiline: False
+                size_hint: (1, None)
+                height: 35
+
+            Label:
+                id: lbl_category_error
+                color: utils.get_color_from_hex('#FF0000')
+                font_size: 15 
+                bold: True
+                text: ""   
+                size_hint_y: .1             
+
+            Label:
+                text: 'Snippet Name'     
+                font_size: 18            
+                size_hint_y: .2
+                
+            TextInput:
+                id: text_snip_name
+                text: ""
+                font_size: 18
+                multiline: False
+                size_hint: (1, None)
+                height: 35             
+            Label:
+                id: lbl_snip_name_error
+                color: utils.get_color_from_hex('#FF0000')
+                font_size: 15
+                bold: True
+                text: ""  
+                size_hint_y: .1              
+
+        GridLayout:
+            cols: 2
+            size_hint: (1,.18)
+            Button:
+                text: "Create"
+                on_release: root.btn_create()
+
+            Button:
+                text: 'Cancel'
+                on_release: root.dismiss() 
+            
+
+
+
+
+<MyLayout>
+    BoxLayout :
+        orientation: 'vertical'
+        size: root.width, root.height                      
+
+        MDToolbar:
+            md_bg_color: hex('#1C1C1C')
+            left_action_items: 
+                [["chart-tree", lambda x: root.toggle_tree(x)],["note-plus", lambda x: Factory.NewSnipPopup(root).open(x)], ["content-save", lambda x: root.save(x)],["delete", lambda x: root.delete_btn(x)],["note-search", lambda x: Factory.SearchPopup(root).open(x)]]            
+
+                # Future Version 1.1
+                # ,["cog", lambda x: root.settings(x)]
+            
+        GridLayout:
+            cols:2
+
+            Splitter:
+                id: split_2
+                sizable_from: 'right'
+                min_size: 0
+                max_size: 2000
+                size_hint: (None, 1)
+                width: 225
+                
+                GridLayout:
+                    cols: 1
+                    ScrollView:
+                        bar_width: 10
+                        scroll_type: ['bars', 'content']
+                        bar_inactive_color: self.bar_color 
+                        id: kr_scroll
+                        do_scroll_x: False
+
+                        TreeView:
+                            id:tree
+                            root_options:{'text':'Snippets'}    
+                            size_hint: (1,None)
+                            height: max(self.minimum_height, kr_scroll.height)
+
+                    Button:
+                        id: btn_filter
+                        size_hint: (1, None)
+                        text: "Remove Filter"
+                        height: 0
+                        on_release: root.clear_filter()
+                        opacity: 0
+                        disabled: True
+
+            GridLayout:
+                cols: 1
+
+                ScrollView:
+                    id: scrlv
+                    bar_width: 10
+                    scroll_type: ['bars', 'content']
+                    bar_inactive_color: self.bar_color    
+
+                    CodeInput:
+                        id: code
+                        font_size: 23
+                        size_hint: 1, None
+                        height: max(self.minimum_height, scrlv.height)
+                        # use_bubble: True
+                        # use_handles: True
+                        on_selection_text: root.hold_last_text_selected()
+                        on_focus: root.code_focus()
+
+
+                GridLayout:
+                    cols: 3
+                    size_hint: (1, None)
+                    height: 58
+
+                    # Label:
+                    #     opacity: 0
+                    #     disabled: True
+                    #     size_hint: (.1, .25)
+
+                    Spinner:
+                        id: spinner_history
+                        text: 'Snippet History'
+                        opacity: 0
+                        disabled: True
+                        # font_size: 18
+                        # values: ['Draft','3 - 2022', '2 - 2019', '1 - 2018']
+                        on_text: root.spinner_change()
+
+                    Label:
+                        opacity: 0
+                        disabled: True
+                    
+                    Label:
+                        opacity: 0
+                        disabled: True                        
+
+                GridLayout:
+                    cols: 2
+                    size_hint: (1, None)
+                    height: 30    
+
+                    Label:
+                        id: current_snippet
+                        # text: "JAVA/Nerds/AAA"
+                        font_size: 12      
+                        text_size: self.size    
+                        halign: "left"
+                        valign: "middle"
+                    Label:
+                        id: db_location
+                        # text: "JAVA/Nerds/AAA"
+                        font_size: 12      
+                        text_size: self.size    
+                        halign: "right"
+                        valign: "middle" 
+
+    MDFloatingActionButtonSpeedDial:
+        id: btn_dial
+        data: root.data
+        root_button_anim: True
+        size_hint: (None, None)
+        
+        callback: root.btn_speed_dial
+            
+
+              
+
+
+                
+ 
+
+                
+
+
+           
+    

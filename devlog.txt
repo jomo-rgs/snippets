@@ -1,0 +1,132 @@
+Snippet Log
+3.4.22
+	Task:
+		Create Popup
+			1. Load values in dropdowns
+				Language
+				Category
+			2. Create update statement
+			3. Call update statment
+				Language
+				Category
+				Snippet Name
+			4. Close popup
+3.5.22
+	Loaded values into dropdowns (Language, Category)
+	Fixed: Tree view error when new snip created without a snippet detail
+3.8.22
+	Added Script to add new snippet.
+	Change Category to text box
+	Moved code to new function get_tree_list()
+	Clear text box if no snippet selected
+3.9.22
+	Auto populated lang, category on new snippet popup
+	Add New Snippet To Tree
+	Select New Snippet in Tree Tree	
+	
+3.10.22	
+	Make New Snippet Popup Look Good
+	Validate values on new snippet popup
+		- Cannot already exist
+		- Cannot be blank
+	Change db field 'node.description' to 'node.category'
+	Load new category into tree view
+		Just setup to reload the grid then select the correct item
+3.12.22 and 3.13.22	
+		Added version dropdown to load different version of snippet
+		Added Scroll bars to tree
+		Added slides to make tree different sizes
+		Added toggle to close/open tree
+
+3.14.22
+	Issue: Version not loading correctly
+	
+3.15.22	
+	Issue: Create Snippet:	
+			Snippet Name Missing from Screen	
+	Don't Save if no changes made
+	Clear version box if no snippet loaded
+	Code starts with version 2
+	Don't save empty code field
+	Issue: Error on close
+	Auto save
+	
+3.16.22
+	Prompt before delete
+	
+3.20.22
+	Remember Open snippet 
+		Created Table
+		Loading from settings table
+	Moved SQL into a data class
+		
+Weekly Total: 11.5h		
+
+3.21.22
+	Add More Lexers
+	Add Status Box:
+		Current Snippet
+		DB File Location	
+	
+3.23.22
+	Added version number
+	Made status bar the same width as screen
+	Moved version spinner to bottom of screen
+	
+3.25.22
+	Search Screen (Incomplete)
+
+3.26.22
+
+	Added Speed Dial menu
+
+3.27.22
+		Speed Dial Menu:
+			Select All
+			Cut/Copy/Paste
+
+Weekly Total: 8h
+
+3.28.22
+	Start app maximized
+	Locate in Tree
+	Search Screen
+	Undo/Redo	
+	Delete Version:
+		Confirm Popup
+		delete sql statement
+		Reload snippet
+		
+3.29.22		
+	Add Button to remove filter condition
+	
+=========================================	
+FREEZE VERSION 0.1 @ 3:00PM ON 03.29.2022	
+=========================================
+
+	Defects:
+	
+		Missing Lexer
+			Python is missing a lexer
+	
+		New Snippet Popup ::FIXED::
+			Languages are not getting loaded into New snippet Spinner
+	
+		NODE Database Table ::FIXED::
+			node.description changed to node.category but not updated in create statement.
+		
+Weekly Total: 6h		
+
+4.12.22
+	Worked on building windows exe
+	
+4.13.22
+	
+	Build windows .exe
+		pip install pyinstaller
+		pyinstaller main.py -w
+		Modify main.spec
+		pyinstaller main.spec -y
+		
+	Changed quit() to sys.exit() due to exe error
+	Removed import for MDDataTable kivymd.uix.datatables
