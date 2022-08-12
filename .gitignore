@@ -4,3 +4,4 @@ virt/
 .vscode/
 *.db
 *.sqbpro
+my_env/

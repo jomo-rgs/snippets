@@ -129,8 +129,8 @@
     BoxLayout :
         orientation: 'vertical'
         size: root.width, root.height                      
-
-        MDToolbar:
+        
+        MDTopAppBar:
             md_bg_color: hex('#1C1C1C')
             left_action_items: 
                 [["chart-tree", lambda x: root.toggle_tree(x)],["note-plus", lambda x: Factory.NewSnipPopup(root).open(x)], ["content-save", lambda x: root.save(x)],["delete", lambda x: root.delete_btn(x)],["note-search", lambda x: Factory.SearchPopup(root).open(x)]]            

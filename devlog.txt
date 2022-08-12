@@ -130,3 +130,12 @@ Weekly Total: 6h
 		
 	Changed quit() to sys.exit() due to exe error
 	Removed import for MDDataTable kivymd.uix.datatables
+
+8.11.22 1h
+
+	T001 - Updated libs for mac m1 compatibility
+	 	o kivy
+	 	o kivymd
+		Class MDToolBar was renamed to MDTopAppBar in new version.
+		Runs on my macbook m1 now
+
