@@ -2,37 +2,38 @@ import sqlite3
 from kivy.properties import ListProperty
 import os
 
+from pygments.lexers.sql import PostgresLexer # SQL Oralce/Postgres
+from pygments.lexers.jvm import JavaLexer
+from pygments.lexers.sql import PlPgsqlLexer
+from pygments.lexers.html import HtmlLexer
+from pygments.lexers.css import CssLexer
+from pygments.lexers.javascript import JavascriptLexer
+from pygments.lexers.data import JsonLexer
+from pygments.lexers.jvm import GroovyLexer
+from pygments.lexers.templates import HtmlPhpLexer
+from pygments.lexers.c_cpp import CLexer, CppLexer
+from pygments.lexers.dotnet import CSharpAspxLexer
+from pygments.lexers.foxpro import FoxProLexer
+from pygments.lexers.basic import VBScriptLexer
+from pygments.lexers.shell import BashLexer, BatchLexer, PowerShellLexer
+from pygments.lexers.configs import DockerLexer
+from pygments.lexers.python import CythonLexer
+from pygments.lexers.special import TextLexer
+
 class Data():
+
+    dict_lang = {'SQL' : PostgresLexer(), 'JAVA':  JavaLexer(), 'PL/SQL':  PlPgsqlLexer(), 'HTML':HtmlLexer(), 'XML':  HtmlLexer(), 
+            'CSS':  CssLexer(), 'JAVASCRIPT':  JavascriptLexer(), 'JSON':  JsonLexer(), 'Groovy':  GroovyLexer(), 'PHP':  HtmlPhpLexer(), 
+            'C':  CLexer(), 'C++':  CppLexer(), 'C#':  CSharpAspxLexer(), 'FOXPRO':  FoxProLexer(), 'VISUAL BASIC':  VBScriptLexer(),
+            'BASH':  BashLexer(), 'BATCH':  BatchLexer(), 'POWERSHELL':  PowerShellLexer(), 'DOCKER':  DockerLexer(),
+            'PYTHON' :  CythonLexer(), 'TEXT' :  TextLexer()
+        }
 
     def get_version():
         return '0.1.0'
 
     def get_db_file():
         return os.path.join(os.getcwd(), "snippet_db.db")
-
-    def get_languages():
-        return list([
-            "BASH",
-            "BATCH",
-            "C",
-            "C#",
-            "C++",
-            "CSS",
-            "DOCKER",
-            "FOXPRO",
-            "Groovy",
-            "HTML/XML",
-            "JAVA",
-            "JAVASCRIPT",
-            "JSON",
-            "PHP",
-            "PL/SQL",
-            "POWERSHELL",
-            "PYTHON",
-            "SQL",
-            'TEXT',
-            "VISUAL BASIC"
-        ])
 
     def get_speed_dial_items():
         return {

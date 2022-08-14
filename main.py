@@ -9,31 +9,13 @@ from kivymd.uix.snackbar import Snackbar
 from kivymd.app import MDApp
 from kivy.config import Config
 from kivy.core.window import Window
-from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
+from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty, DictProperty
 from kivy.uix.treeview import TreeView, TreeViewNode
 from kivy.uix.button import Label
 from kivy.uix.popup import Popup
 from kivy.uix.gridlayout import GridLayout
 from kivy.metrics import dp
 from kivy.core.clipboard import Clipboard
-
-from pygments.lexers.sql import PostgresLexer # SQL Oralce/Postgres
-from pygments.lexers.jvm import JavaLexer
-from pygments.lexers.sql import PlPgsqlLexer
-from pygments.lexers.html import HtmlLexer
-from pygments.lexers.css import CssLexer
-from pygments.lexers.javascript import JavascriptLexer
-from pygments.lexers.data import JsonLexer
-from pygments.lexers.jvm import GroovyLexer
-from pygments.lexers.templates import HtmlPhpLexer
-from pygments.lexers.c_cpp import CLexer, CppLexer
-from pygments.lexers.dotnet import CSharpAspxLexer
-from pygments.lexers.foxpro import FoxProLexer
-from pygments.lexers.basic import VBScriptLexer
-from pygments.lexers.shell import BashLexer, BatchLexer, PowerShellLexer
-from pygments.lexers.configs import DockerLexer
-from pygments.lexers.python import CythonLexer
-from pygments.lexers.special import TextLexer
 
 # Window.size = (1000,1000)
 
@@ -107,11 +89,11 @@ class NewSnipPopup(Popup):
         elif len(tree_list) == 4:
             self.language = tree_list[2]
             self.category = tree_list[1]
-        # else:
-        #     self.language = self.languages[0]  
-             
-        self.languages = Data.get_languages()                      
-            
+        else:
+            self.language = "Text" 
+              
+        self.languages = list(Data.dict_lang.keys())  
+
 
     ####################################################
     ## NewSnipPopup : Create New Snippet
@@ -157,6 +139,13 @@ class MyLayout(Widget):
     filter_value = StringProperty('')
 
     data = Data.get_speed_dial_items()
+
+    # dict_lang = DictProperty({'SQL' : PostgresLexer(), 'JAVA':  JavaLexer(), 'PL/SQL':  PlPgsqlLexer(), 'HTML' or lang == 'XML':  HtmlLexer(), 
+    #         'CSS':  CssLexer(), 'JAVASCRIPT':  JavascriptLexer(), 'JSON':  JsonLexer(), 'Groovy':  GroovyLexer(), 'PHP':  HtmlPhpLexer(), 
+    #         'C':  CLexer(), 'C++':  CppLexer(), 'C#':  CSharpAspxLexer(), 'FOXPRO':  FoxProLexer(), 'VISUAL BASIC':  VBScriptLexer(),
+    #         'BASH':  BashLexer(), 'BATCH':  BatchLexer(), 'POWERSHELL':  PowerShellLexer(), 'DOCKER':  DockerLexer(),
+    #         'PYTHON' :  CythonLexer(), 'TEXT' :  TextLexer()
+    #     } ) 
     
     #####################################################
     ## INIT SCREEN - Initialize Stuff
@@ -375,7 +364,7 @@ class MyLayout(Widget):
         self.ids.code.text = ""
         self.old_code = ""
         self.ids.spinner_history.opacity = 0
-        self.ids.spinner_history.disabled = True         
+        self.ids.spinner_history.disabled = True       
 
         ## >>> Exit Function ********************
         if len(tree) < 4: return     
@@ -387,9 +376,8 @@ class MyLayout(Widget):
         if record is not None:
             self.ids.code.text = record[3]
             self.old_code = record[3]
-        
 
-        self.ids.code.lexer = self.get_lexer(lang)     
+        self.ids.code.lexer = Data.dict_lang[lang]    
 
         snip_id = -1
         if record != None:
@@ -410,30 +398,6 @@ class MyLayout(Widget):
             self.ids.current_snippet.text = f"  {lang} ->  {category} ->  {snippet} : {record[6]}"
             self.old_version = record[6]
                                   
-    #####################################################
-    ## GET LEXER - Return Requested Lexer
-    #####################################################    
-    def get_lexer(self, lang):
-        if lang == 'SQL': return PostgresLexer()
-        if lang == 'JAVA': return JavaLexer()
-        if lang == 'PL/SQL': return PlPgsqlLexer()
-        if lang == 'HTML' or lang == 'XML': return HtmlLexer()
-        if lang == 'CSS': return CssLexer()
-        if lang == 'JAVASCRIPT': return JavascriptLexer()
-        if lang == 'JSON': return JsonLexer()
-        if lang == 'Groovy': return GroovyLexer()
-        if lang == 'PHP': return HtmlPhpLexer()
-        if lang == 'C': return CLexer()
-        if lang == 'C++': return CppLexer()
-        if lang == 'C#': return CSharpAspxLexer()
-        if lang == 'FOXPRO': return FoxProLexer()
-        if lang == 'VISUAL BASIC': return VBScriptLexer()
-        if lang == 'BASH': return BashLexer()
-        if lang == 'BATCH': return BatchLexer()
-        if lang == 'POWERSHELL': return PowerShellLexer()
-        if lang == 'DOCKER': return DockerLexer()  
-        if lang == 'PYTHON' : return CythonLexer() 
-        if lang == 'TEXT' : return TextLexer()
 
     #################################################
     ## NODE CLICKED - Node In Tree Has Been Clicked
@@ -606,11 +570,6 @@ class MyLayout(Widget):
     #     Snackbar(text="Show Settings").open()      
 
 
-
-
-#######################  #######################  #######################  
-#######################    CLASS-NewSnipPopup     #######################  
-#######################  #######################  ####################### 
 class MainApp(MDApp):
     def build(self):
         self.theme_cls.theme_style = 'Dark'
