@@ -30,6 +30,7 @@ class Data():
             "POWERSHELL",
             "PYTHON",
             "SQL",
+            'TEXT',
             "VISUAL BASIC"
         ])
 

@@ -9,10 +9,7 @@ from kivymd.uix.snackbar import Snackbar
 from kivymd.app import MDApp
 from kivy.config import Config
 from kivy.core.window import Window
-from kivy.properties import ListProperty
-from kivy.properties import StringProperty
-from kivy.properties import ObjectProperty
-from kivy.properties import NumericProperty
+from kivy.properties import ListProperty, StringProperty, ObjectProperty, NumericProperty
 from kivy.uix.treeview import TreeView, TreeViewNode
 from kivy.uix.button import Label
 from kivy.uix.popup import Popup
@@ -20,26 +17,23 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.metrics import dp
 from kivy.core.clipboard import Clipboard
 
-from kivy.uix.codeinput import CodeInput    # PYTHON
 from pygments.lexers.sql import PostgresLexer # SQL Oralce/Postgres
 from pygments.lexers.jvm import JavaLexer
 from pygments.lexers.sql import PlPgsqlLexer
-from pygments.lexers.html  import HtmlLexer
+from pygments.lexers.html import HtmlLexer
 from pygments.lexers.css import CssLexer
 from pygments.lexers.javascript import JavascriptLexer
 from pygments.lexers.data import JsonLexer
 from pygments.lexers.jvm import GroovyLexer
 from pygments.lexers.templates import HtmlPhpLexer
-from pygments.lexers.c_cpp import CLexer
-from pygments.lexers.c_cpp import CppLexer
+from pygments.lexers.c_cpp import CLexer, CppLexer
 from pygments.lexers.dotnet import CSharpAspxLexer
 from pygments.lexers.foxpro import FoxProLexer
 from pygments.lexers.basic import VBScriptLexer
-from pygments.lexers.shell import BashLexer
-from pygments.lexers.shell import BatchLexer
-from pygments.lexers.shell import PowerShellLexer
+from pygments.lexers.shell import BashLexer, BatchLexer, PowerShellLexer
 from pygments.lexers.configs import DockerLexer
 from pygments.lexers.python import CythonLexer
+from pygments.lexers.special import TextLexer
 
 # Window.size = (1000,1000)
 
@@ -394,6 +388,7 @@ class MyLayout(Widget):
             self.ids.code.text = record[3]
             self.old_code = record[3]
         
+
         self.ids.code.lexer = self.get_lexer(lang)     
 
         snip_id = -1
@@ -438,6 +433,7 @@ class MyLayout(Widget):
         if lang == 'POWERSHELL': return PowerShellLexer()
         if lang == 'DOCKER': return DockerLexer()  
         if lang == 'PYTHON' : return CythonLexer() 
+        if lang == 'TEXT' : return TextLexer()
 
     #################################################
     ## NODE CLICKED - Node In Tree Has Been Clicked

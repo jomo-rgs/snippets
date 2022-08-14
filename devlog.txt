@@ -139,3 +139,9 @@ Weekly Total: 6h
 		Class MDToolBar was renamed to MDTopAppBar in new version.
 		Runs on my macbook m1 now
 
+8.12.22 1h
+	T002 - Added a plain text under Languages
+		Added Text lexer and added to list.
+		Upgraded pygments to 2.12
+
+	Also combined some of the imports.
