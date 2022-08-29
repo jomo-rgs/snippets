@@ -151,7 +151,8 @@ class MyLayout(Widget):
     ## INIT SCREEN - Initialize Stuff
     #####################################################    
     def init_screen(self):  
-        Config.set('input', 'mouse', 'mouse, multitouch_on_demand')
+        # Config.set('input', 'mouse', 'mouse, multitouch_on_demand')
+        Config.set('input', 'mouse', 'mouse,disable_multitouch')
 
         Data.create_db()
         self.load_tree()

@@ -140,8 +140,22 @@ Weekly Total: 6h
 		Runs on my macbook m1 now
 
 8.12.22 1h
+
 	T002 - Added a plain text under Languages
 		Added Text lexer and added to list.
 		Upgraded pygments to 2.12
 
 	Also combined some of the imports.
+
+8.14.22 1.5h
+
+	T003 - Fixed error when there was no lang selected.
+			Made the default "Text" value in spinner. This way
+			we will never have a missing value.
+
+	Also clean up the code for the code lexers and moved everything including 
+	import to the data class.
+
+8.28.22 2.5h
+
+	Database redesign.
