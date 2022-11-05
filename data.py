@@ -64,19 +64,109 @@ class Data():
     #####################################################
     #####################################################
     def query_count_versions(lang, cat, snip):
-         return sql_service.query_count_versions(lang, cat, snip) 
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            SELECT count(snip_detail.seq) 
+            FROM snip_detail
+            WHERE snip_detail.snip_mast = (SELECT DISTINCT snip_mast.row_id
+                                            FROM node
+                                            JOIN snip_mast ON node.row_id = snip_mast.node
+                                            WHERE node.lang = :lang
+                                            AND node.category = :cat
+                                            AND snip_mast.description = :snip)	  
+        """,
+        {
+            'lang':lang,
+            'cat':cat,
+            'snip':snip,
+        })
+
+        record = sql_cursor.fetchone()
+        conn.close() 
+
+        return record        
 
 
     #####################################################
     #####################################################    
     def query_last_session_open_nodes():
-        return sql_service.query_last_session_open_nodes()
+        data = {'lang':None, 'cat':None, 'snip':None}
 
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            select key, value 
+            FROM settings 
+            WHERE settings.key LIKE 'last_open_node%'
+        """)
+
+        records = sql_cursor.fetchall()
+        conn.close()  
+
+        if records != None:
+            if len(records) >= 3:
+                for r in records:
+                    if r[0] == 'last_open_node_lang':
+                        data['lang'] = r[1]
+                    if r[0] == 'last_open_node_cat':
+                        data['cat'] = r[1]
+                    if r[0] == 'last_open_node_snip':
+                        data['snip'] = r[1]
+
+        return data  
+
+    def get_setting(key):
+
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            SELECT value
+            FROM settings
+            WHERE key = :key;
+        """,
+        {
+            'key':key,
+        })
+
+        record = sql_cursor.fetchone()
+        conn.close()   
+
+        return record[0]
+        
 
     #####################################################
     #####################################################    
-    def insert_setting(key, value):
-        sql_service.insert_setting(key, value)
+    def set_setting(key, value):
+
+        # Be sure the key exist first.
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            INSERT INTO settings  (key)
+            SELECT  :key
+            WHERE :key NOT IN (SELECT  key from settings where key = :key);
+        """,
+        {
+            'key':key,
+        })
+
+        conn.commit()
+        conn.close()       
+
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            UPDATE settings SET value = :value
+            WHERE settings.key = :key
+        """,
+        {
+            'key':key,
+            'value':value
+        })
+
+        conn.commit()
+        conn.close()          
 
 
     #####################################################
@@ -99,7 +189,26 @@ class Data():
     #####################################################
     ##################################################### 
     def query_duplicate(lang, cat, snip):
-       return sql_service.query_duplicate(lang, cat, snip)
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            SELECT DISTINCT 'Y'
+            FROM node
+            JOIN snip_mast ON node.row_id = snip_mast.node
+            WHERE node.lang = :lang
+            AND node.category = :category
+            AND snip_mast.description = :snippet
+        """,
+        {
+            'lang':lang,
+            'category':cat,
+            'snippet':snip
+        })
+        record = sql_cursor.fetchone()
+        conn.close()   
+
+        return record
+
 
     #####################################################
     ##################################################### 
