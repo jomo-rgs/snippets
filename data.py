@@ -179,10 +179,44 @@ class Data():
 
         return data  
 
+    def get_setting(key):
+
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            SELECT value
+            FROM settings
+            WHERE key = :key;
+        """,
+        {
+            'key':key,
+        })
+
+        record = sql_cursor.fetchone()
+        conn.close()   
+
+        return record[0]
+        
 
     #####################################################
     #####################################################    
-    def insert_setting(key, value):
+    def set_setting(key, value):
+
+        # Be sure the key exist first.
+        conn = sqlite3.connect(Data.get_db_file())
+        sql_cursor = conn.cursor()
+        sql_cursor.execute("""
+            INSERT INTO settings  (key)
+            SELECT  :key
+            WHERE :key NOT IN (SELECT  key from settings where key = :key);
+        """,
+        {
+            'key':key,
+        })
+
+        conn.commit()
+        conn.close()       
+
         conn = sqlite3.connect(Data.get_db_file())
         sql_cursor = conn.cursor()
         sql_cursor.execute("""
@@ -280,7 +314,7 @@ class Data():
         record = sql_cursor.fetchone()
         conn.close()   
 
-        return record  
+        return record
 
 
     #####################################################

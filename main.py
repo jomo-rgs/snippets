@@ -160,6 +160,12 @@ class MyLayout(Widget):
         node_dict = Data.query_last_session_open_nodes()
         self.find_and_open_nodes(node_dict['lang'], node_dict['cat'], node_dict['snip'])
 
+        print(f"Split Width Value = {Data.get_setting('split_width')}")
+        
+        if Data.get_setting('split_width') != None:
+            self.ids.split_2.width = Data.get_setting('split_width')
+
+
         # I don't like the way this looks on the screen...
         # self.ids.db_location.text = Data.get_db_file() + "  "
 
@@ -513,17 +519,20 @@ class MyLayout(Widget):
 
         l = len(self.tree_list)
         if l >= 2:
-            Data.insert_setting('last_open_node_lang', self.tree_list[l-2])
+            Data.set_setting('last_open_node_lang', self.tree_list[l-2])
         else:
-            Data.insert_setting('last_open_node_lang', '')
+            Data.set_setting('last_open_node_lang', '')
         if l >= 3:
-            Data.insert_setting('last_open_node_cat', self.tree_list[l-3])    
+            Data.set_setting('last_open_node_cat', self.tree_list[l-3])    
         else:
-            Data.insert_setting('last_open_node_cat', '')            
+            Data.set_setting('last_open_node_cat', '')            
         if l >= 4:
-            Data.insert_setting('last_open_node_snip', self.tree_list[l-4])
+            Data.set_setting('last_open_node_snip', self.tree_list[l-4])
         else:
-            Data.insert_setting('last_open_node_snip', '')
+            Data.set_setting('last_open_node_snip', '')
+
+        # Save split window position
+        Data.set_setting('split_width',self.ids.split_2.width)
       
         #quit()
         sys.exit()
