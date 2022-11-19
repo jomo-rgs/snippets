@@ -195,7 +195,7 @@ class Data():
         record = sql_cursor.fetchone()
         conn.close()   
 
-        return record[0]
+        return record[0] if record is not None else None
         
 
     #####################################################

@@ -161,7 +161,7 @@ class MyLayout(Widget):
         node_dict = Data.query_last_session_open_nodes()
         self.find_and_open_nodes(node_dict['lang'], node_dict['cat'], node_dict['snip'])
 
-        print(f"Split Width Value = {Data.get_setting('split_width')}")
+        # print(f"Split Width Value = {Data.get_setting('split_width')}")
         
         if Data.get_setting('split_width') != None:
             self.ids.split_2.width = Data.get_setting('split_width')
