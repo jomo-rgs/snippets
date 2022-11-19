@@ -23,14 +23,14 @@ from pygments.lexers.special import TextLexer
 class Data():
 
     dict_lang = {'SQL' : PostgresLexer(), 'JAVA':  JavaLexer(), 'PL/SQL':  PlPgsqlLexer(), 'HTML':HtmlLexer(), 'XML':  HtmlLexer(), 
-            'CSS':  CssLexer(), 'JAVASCRIPT':  JavascriptLexer(), 'JSON':  JsonLexer(), 'Groovy':  GroovyLexer(), 'PHP':  HtmlPhpLexer(), 
+            'CSS':  CssLexer(), 'JAVASCRIPT':  JavascriptLexer(), 'JSON':  JsonLexer(), 'GROOVY':  GroovyLexer(), 'PHP':  HtmlPhpLexer(), 
             'C':  CLexer(), 'C++':  CppLexer(), 'C#':  CSharpAspxLexer(), 'FOXPRO':  FoxProLexer(), 'VISUAL BASIC':  VBScriptLexer(),
             'BASH':  BashLexer(), 'BATCH':  BatchLexer(), 'POWERSHELL':  PowerShellLexer(), 'DOCKER':  DockerLexer(),
             'PYTHON' :  CythonLexer(), 'TEXT' :  TextLexer()
         }
 
     def get_version():
-        return '0.1.0'
+        return '0.2.0'
 
     def get_db_file():
         return os.path.join(os.getcwd(), "snippet_db.db")

@@ -1,3 +1,5 @@
+# Version 0.1.0 - Released Nov 19, 2022 Jonathan Moore
+
 from ast import Num
 from data import Data
 import re
