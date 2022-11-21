@@ -92,7 +92,7 @@ class NewSnipPopup(Popup):
             self.language = tree_list[2]
             self.category = tree_list[1]
         else:
-            self.language = "Text" 
+            self.language = "TEXT" 
               
         self.languages = list(Data.dict_lang.keys())  
 
@@ -594,6 +594,8 @@ class MainApp(MDApp):
         self.title = 'Snippet ' + Data.get_version()
         self.icon = 'icon.png'
         Window.maximize()
+        KIVY_METRICS_DENSITY=3
+        KIVY_METRICS_FONTSCALE=3
         return myLayout
 
 MainApp().run()         
