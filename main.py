@@ -19,6 +19,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.metrics import dp
 from kivy.core.clipboard import Clipboard
 
+import keyboard
+
 # Window.size = (1000,1000)
 
 
@@ -55,6 +57,7 @@ class SearchPopup(Popup):
     def __init__(self, my_layout_instance): 
         super(SearchPopup, self).__init__()
         self.my_layout_instance = my_layout_instance
+        self.ids.text_search.focus = True
 
     ###################################################
     ## BTN SEARCH : Search Btn Clicked
@@ -62,6 +65,8 @@ class SearchPopup(Popup):
     def btn_search(self):
         self.my_layout_instance.btn_search(self.ids.text_search.text)    
         self.dismiss()
+
+
 
 
 
@@ -95,6 +100,11 @@ class NewSnipPopup(Popup):
             self.language = "TEXT" 
               
         self.languages = list(Data.dict_lang.keys())  
+
+        if len(self.ids.text_cat.text) < 1:
+            self.ids.text_cat.focus = True
+        else:
+            self.ids.text_snip_name.focus = True
 
 
     ####################################################
@@ -594,8 +604,7 @@ class MainApp(MDApp):
         self.title = 'Snippet ' + Data.get_version()
         self.icon = 'icon.png'
         Window.maximize()
-        KIVY_METRICS_DENSITY=3
-        KIVY_METRICS_FONTSCALE=3
+
         return myLayout
 
 MainApp().run()         
