@@ -426,7 +426,10 @@ class Data():
                     and snip_detail.seq = (SELECT MAX(sd2.seq)
                                     FROM snip_detail sd2
                                     WHERE sd2.snip_mast = snip_detail.snip_mast) 
-        WHERE ((:filter = 'Y' AND upper(snip_detail.code) like '%' || :filter_value || '%') 
+        WHERE ((:filter = 'Y' AND (upper(snip_detail.code) like '%' || :filter_value || '%'
+                              OR upper(node.category) like '%' || :filter_value || '%'
+                              OR upper(snip_mast.description) like '%' || :filter_value || '%')
+                ) 
                 OR :filter = 'N')                                   
         ORDER BY snip_mast.deleted, node.lang, node.category, snip_mast.description;
         """,
