@@ -19,7 +19,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.metrics import dp
 from kivy.core.clipboard import Clipboard
 
-import keyboard
+# import keyboard
 
 # Window.size = (1000,1000)
 
