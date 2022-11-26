@@ -194,7 +194,7 @@
                         # use_bubble: True
                         # use_handles: True
                         on_selection_text: root.hold_last_text_selected()
-                        on_focus: root.code_focus()
+                        # on_focus: root.code_focus()
 
 
                 GridLayout:
@@ -249,6 +249,7 @@
         data: root.data
         root_button_anim: True
         size_hint: (None, None)
+        on_open: root.code_focus()
         
         callback: root.btn_speed_dial
             

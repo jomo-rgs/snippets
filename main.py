@@ -214,6 +214,9 @@ class MyLayout(Widget):
     ## BTN SPEED DIAL - Actions for Speed Dial Menu
     #####################################################    
     def btn_speed_dial(self, instance):
+
+        self.code_focus()
+
         if instance.icon == 'select-all':
             self.ids.code.select_all()
             self.ids.code.copy()
@@ -233,6 +236,8 @@ class MyLayout(Widget):
             self.ids.code.do_redo()
         if instance.icon == 'delete':
             self.delete_version_check()
+
+        
 
     #####################################################
     ## HOLD LAST TEXT SELECTION (Function 1)
@@ -258,7 +263,6 @@ class MyLayout(Widget):
     #####################################################    
     def delete_version_check(self):
         if len(self.get_tree_list()) != 4:
-            print('No snippet selected')
             return
 
         content = ConfirmPopup(text=f'Delete History version: {self.old_version}?')
@@ -427,6 +431,9 @@ class MyLayout(Widget):
         if self.ids.code.text != self.old_code:
             self.auto_save_on_tree_change()
         self.select_node()
+
+        # Clear Text selection in codeview.
+        self.ids.code.select_text(0,0) 
                 
     #################################################
     ### LOAD TREE - Populate Tree With Values
