@@ -305,27 +305,33 @@ class MyLayout(Widget):
     #####################################################    
     def find_and_open_nodes(self, lang, cat, snip):
         tree = self.ids.tree
-        lang_found = False
-        category_found = False
-        snip_found = False
+
+        language_found = False  # We have found the correct lang
+        snippet_found = False   # Snippet has been found so we can stop looking
+
         for node in tree.iterate_all_nodes():
 
-            if node.text == lang and lang_found == False:
-                lang_found = True
-                if node.is_open == False:
-                    tree.toggle_node(node)
+            if snippet_found == False:
+                if node.text == "Snippets":
+                    if node.is_open == False:
+                        tree.toggle_node(node) 
 
-            # Expand Cat Node
-            if node.text == cat and lang_found == True and category_found == False:
-                lang_found = False # Only fire one time.
-                category_found = True
-                if node.is_open == False:
-                    tree.toggle_node(node) 
+                if node.text == lang:
+                    language_found = True   # Found lang so we are in the right spot...
+                    if node.is_open == False:
+                        tree.toggle_node(node)  
+                        
+                if language_found == True:  # Only open nodes if there are under the correct lang
+                    if node.text == cat:
+                        if node.is_open == False:
+                            tree.toggle_node(node)                     
 
-            if node.text == snip and category_found == True and snip_found == False:
-                snip_found = True #Only fire 1 time
-                tree.select_node(node)
-                self.select_node()                
+                    if node.text == snip:
+                        print(snip)
+                        snippet_found = True    # Don't look anymore...
+                        tree.select_node(node)
+                        self.select_node()
+              
             
     #####################################################
     ### get_tree_list : List with selected tree values
