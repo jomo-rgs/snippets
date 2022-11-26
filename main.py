@@ -19,6 +19,9 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.metrics import dp
 from kivy.core.clipboard import Clipboard
 
+#Settings
+set_speed_dial_auto_close = True
+
 # import keyboard
 
 # Window.size = (1000,1000)
@@ -208,7 +211,7 @@ class MyLayout(Widget):
 
         self.ids.btn_filter.height = 0
         self.ids.btn_filter.opacity = 0
-        self.ids.btn_filter.disabled = True        
+        self.ids.btn_filter.disabled = True                
 
     #####################################################
     ## BTN SPEED DIAL - Actions for Speed Dial Menu
@@ -236,6 +239,10 @@ class MyLayout(Widget):
             self.ids.code.do_redo()
         if instance.icon == 'delete':
             self.delete_version_check()
+
+        # Auto close speed dial (Look at settings)
+        if set_speed_dial_auto_close:
+            self.ids.btn_dial.close_stack()            
 
         
 
